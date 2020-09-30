@@ -1,9 +1,0 @@
-﻿{
-    "name": "Conway.Tests",
-    "optionalUnityReferences": [
-        "TestAssemblies"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ]
-}
