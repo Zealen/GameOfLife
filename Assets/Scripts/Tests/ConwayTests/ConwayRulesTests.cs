@@ -17,10 +17,10 @@ namespace Tests
         {
             //Setup
             CellState currentState = CellState.Alive;
-            int liveNeighbors = 1;
+            int liveNeighbours = 1;
 
             //Action
-            CellState result = ConwayRules.GetCellState(currentState, liveNeighbors);
+            CellState result = ConwayRules.GetCellState(currentState, liveNeighbours);
 
             //Result
             Assert.AreEqual(CellState.Dead, result);
@@ -32,10 +32,10 @@ namespace Tests
         {
             //Setup
             CellState currentState = CellState.Alive;
-            int liveNeighbors = iteration;
+            int liveNeighbours = iteration;
 
             //Action
-            CellState result = ConwayRules.GetCellState(currentState, liveNeighbors);
+            CellState result = ConwayRules.GetCellState(currentState, liveNeighbours);
 
             //Result
             Assert.AreEqual(CellState.Alive, result);
@@ -47,10 +47,10 @@ namespace Tests
         {
             //Setup
             CellState currentState = CellState.Alive;
-            int liveNeighbors = iteration;
+            int liveNeighbours = iteration;
 
             //Action
-            CellState result = ConwayRules.GetCellState(currentState, liveNeighbors);
+            CellState result = ConwayRules.GetCellState(currentState, liveNeighbours);
 
             //Result
             Assert.AreEqual(CellState.Dead, result);
@@ -62,10 +62,10 @@ namespace Tests
         {
             //Setup
             CellState currentState = CellState.Dead;
-            int liveNeighbors = iteration;
+            int liveNeighbours = iteration;
 
             //Action
-            CellState result = ConwayRules.GetCellState(currentState, liveNeighbors);
+            CellState result = ConwayRules.GetCellState(currentState, liveNeighbours);
 
             //Result
             Assert.AreEqual(CellState.Dead, result);
@@ -77,10 +77,10 @@ namespace Tests
         {
             //Setup
             CellState currentState = CellState.Dead;
-            int liveNeighbors = iteration;
+            int liveNeighbours = iteration;
 
             //Action
-            CellState result = ConwayRules.GetCellState(currentState, liveNeighbors);
+            CellState result = ConwayRules.GetCellState(currentState, liveNeighbours);
 
             //Result
             Assert.AreEqual(CellState.Dead, result);
@@ -92,10 +92,10 @@ namespace Tests
         {
             //Setup
             CellState currentState = CellState.Dead;
-            int liveNeighbors = 3;
+            int liveNeighbours = 3;
 
             //Action
-            CellState result = ConwayRules.GetCellState(currentState, liveNeighbors);
+            CellState result = ConwayRules.GetCellState(currentState, liveNeighbours);
 
             //Result
             Assert.AreEqual(CellState.Alive, result);
