@@ -9,18 +9,18 @@ namespace Conway
     }
     public class ConwayRules
     {
-        public static CellState GetCellState(CellState currentState, int liveNeighbors)
+        public static CellState GetCellState(CellState currentState, int liveNeighbours)
         {
             switch (currentState)
             {
                 case CellState.Alive:
-                    if (liveNeighbors < 2 || liveNeighbors > 3)
+                    if (liveNeighbours < 2 || liveNeighbours > 3)
                     {
                         return CellState.Dead;
                     }
                     break;
                 case CellState.Dead:
-                    if (liveNeighbors == 3)
+                    if (liveNeighbours == 3)
                     {
                         return CellState.Alive;
                     }
