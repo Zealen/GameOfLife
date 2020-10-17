@@ -8,6 +8,7 @@ public class Cell
 {
     public TileBase tileBase { get; set; }
     public CellState state;
+    public AudioClip sound;
 
     public Cell()
     {
@@ -21,5 +22,10 @@ public class Cell
             return true;
         }
         return false;
+    }
+
+    public void PlaySound()
+    {
+        AudioManager.Instance.Play(sound);
     }
 }

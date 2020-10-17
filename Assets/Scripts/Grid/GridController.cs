@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[RequireComponent(typeof(Grid))]
+[RequireComponent(typeof(CellContainer))]
 public class GridController : MonoBehaviour
 {
 
     private Tilemap map;
-    private Grid grid;
+    private CellContainer cells;
     private Vector3Int cellPosition;
     private Vector3Int previousCellPosition;
 
@@ -16,35 +16,35 @@ public class GridController : MonoBehaviour
     void Start()
     {
         map = GetComponent<Tilemap>();
-        grid = gameObject.GetComponent<Grid>();
+        cells = gameObject.GetComponent<CellContainer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         Vector3 mousePos = Input.mousePosition;
-        mousePos.z = 10;
+        mousePos.z = -Camera.main.transform.position.z;
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
         cellPosition = map.WorldToCell(mouseWorldPos);
 
+        ClickCell(Input.GetMouseButtonDown(0), cells.tileSet.alive);
+        ClickCell(Input.GetMouseButtonDown(1), cells.tileSet.locked);
         HighlightCell();
-        LeftClickCell();
     }
 
-    private void LeftClickCell()
+    private void ClickCell(bool input, TileBase tile)
     {
-        if (Input.GetMouseButtonDown(0))
+        if (input)
         {
-            Cell cell = grid.GetCell(cellPosition);
-            if (grid.GetCell(cellPosition).tileBase == grid.purple)
+            Cell cell = cells.GetCell(cellPosition);
+            if (cells.GetCell(cellPosition).tileBase == tile)
             {
-                grid.UpdateCell(new Vector3Int(cellPosition.x, cellPosition.y, 0), grid.black);
+                cells.UpdateCell(new Vector3Int(cellPosition.x, cellPosition.y, 0), cells.tileSet.dead);
             }
-            else
+            else 
             {
-                grid.UpdateCell(new Vector3Int(cellPosition.x, cellPosition.y, 0), grid.purple);
+                cells.UpdateCell(new Vector3Int(cellPosition.x, cellPosition.y, 0), tile);
             }
-            
         }
     }
 
@@ -52,8 +52,8 @@ public class GridController : MonoBehaviour
     {
         if (cellPosition != previousCellPosition)
         {
-            grid.UpdateCell(new Vector3Int(cellPosition.x, cellPosition.y, 1), grid.highlight);
-            grid.UpdateCell(new Vector3Int(previousCellPosition.x, previousCellPosition.y, 1), null);
+            cells.UpdateCell(new Vector3Int(cellPosition.x, cellPosition.y, 1), cells.tileSet.highlight);
+            cells.UpdateCell(new Vector3Int(previousCellPosition.x, previousCellPosition.y, 1), null);
             previousCellPosition = cellPosition;
         }
     }
