@@ -29,3 +29,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0e1f411d1bc31f545bfa39b2946ba444, type: 3}
   - {fileID: 8300000, guid: cffd34e135b01194d8d58b30105f05a2, type: 3}
   - {fileID: 8300000, guid: b5a6627296d5e8447bc0436a1c9f9f6b, type: 3}
+  bpm: 0.2

@@ -26,6 +26,13 @@ public class Cell
 
     public void PlaySound()
     {
-        AudioManager.Instance.Play(sound);
+        if(sound != null)
+        {
+            AudioManager.Instance.Play(sound);
+        }
+        else
+        {
+            Debug.LogError("Sound not found");
+        }
     }
 }
