@@ -10,19 +10,19 @@ public class CellContainer : MonoBehaviour
     public TileSet tileSet;
     [SerializeField]
     public AudioData audioSet;
+    public GameObject tileAnimation;
 
     private Tilemap map;
     private Cell[,] cells;
-    private Queue<List<Cell>> queue;
+    private int stepCount;
     // Start is called before the first frame update
     void Start()
     {
         map = GetComponent<Tilemap>();
         cells = new Cell[map.size.x, map.size.y];
-        queue = new Queue<List<Cell>>();
+        stepCount = 0;
         GenerateCells();
         AssignNotes();
-        BuildChords();
         StartCoroutine(PlayChords());
     }
 
@@ -32,41 +32,27 @@ public class CellContainer : MonoBehaviour
         
     }
 
-    private void BuildChords()
-    {
-        for (int col = 0; col < map.size.x; col++)
-        {
-            List<Cell> chord = new List<Cell>();
-            for (int row = 0; row < map.size.y; row++)
-            {
-                // Check if there are enough sounds for each row
-                if (cells[col, row].isAlive())
-                {
-                    chord.Add(cells[col, row]);
-                }
-            }
-            queue.Enqueue(chord);
-        }
-    }
-
     public IEnumerator PlayChords()
     {
-        Debug.Log("Queue count = " + queue.Count);
         while (true)
         {
-            if (queue.Count > 0)
+            for (int row = 0; row < map.size.y; row++)
             {
-                foreach (Cell cell in queue.Dequeue())
+                if (cells[stepCount, row].isAlive())
                 {
-                    cell.PlaySound();
+                    //Play Sounds
+                    cells[stepCount, row].PlaySound();
+                    //Play Animations
+                    Instantiate(tileAnimation, new Vector3(stepCount + map.tileAnchor.x, row + map.tileAnchor.y), Quaternion.identity);
                 }
             }
-            else
+            stepCount++;
+            if (stepCount >= map.size.x)
             {
+                stepCount = 0;
                 UpdateAllCellStates();
-                BuildChords();
             }
-            
+
             yield return new WaitForSeconds(audioSet.bpm);
         }
     }
@@ -97,7 +83,9 @@ public class CellContainer : MonoBehaviour
 
     public Cell GetCell(Vector3Int position)
     {
-        return cells[position.x, position.y];
+        if (IsValidCoordinate((position.x, position.y), map.size.x, map.size.y))
+            return cells[position.x, position.y];
+        return null;
     }
 
     public void UpdateCell(Vector3Int position, TileBase tile)
@@ -121,9 +109,7 @@ public class CellContainer : MonoBehaviour
     public void UpdateAllCellStates()
     {
         Cell[,] tempCells = new Cell[map.size.x, map.size.y];
-        //Copy the Cell map and get rid of the highlight layer
-        //map.size = new Vector3Int(map.size.x, map.size.y, 1);
-        //map.ResizeBounds();
+
         foreach (Vector2Int position in map.cellBounds.allPositionsWithin)
         {
             tempCells[position.x, position.y] = new Cell()

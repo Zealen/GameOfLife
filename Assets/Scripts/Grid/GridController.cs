@@ -11,6 +11,7 @@ public class GridController : MonoBehaviour
     private CellContainer cells;
     private Vector3Int cellPosition;
     private Vector3Int previousCellPosition;
+    private TileBase clickedTile;
 
     // Start is called before the first frame update
     void Start()
@@ -27,23 +28,33 @@ public class GridController : MonoBehaviour
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
         cellPosition = map.WorldToCell(mouseWorldPos);
 
-        ClickCell(Input.GetMouseButtonDown(0), cells.tileSet.alive);
-        ClickCell(Input.GetMouseButtonDown(1), cells.tileSet.locked);
+        if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+        {
+            clickedTile = null;
+        }
+
+        ClickCell(Input.GetMouseButton(0), cells.tileSet.alive);
+        ClickCell(Input.GetMouseButton(1), cells.tileSet.locked);
         HighlightCell();
     }
 
     private void ClickCell(bool input, TileBase tile)
     {
-        if (input)
+        Cell cell = cells.GetCell(cellPosition);
+        if (input && cell != null)
         {
-            Cell cell = cells.GetCell(cellPosition);
-            if (cells.GetCell(cellPosition).tileBase == tile)
+            if(clickedTile == null)
             {
-                cells.UpdateCell(new Vector3Int(cellPosition.x, cellPosition.y, 0), cells.tileSet.dead);
+                clickedTile = cell.tileBase;
             }
-            else 
+
+            if (clickedTile == cells.tileSet.dead)
             {
                 cells.UpdateCell(new Vector3Int(cellPosition.x, cellPosition.y, 0), tile);
+            }
+            else
+            {
+                cells.UpdateCell(new Vector3Int(cellPosition.x, cellPosition.y, 0), cells.tileSet.dead);
             }
         }
     }
