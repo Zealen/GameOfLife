@@ -44,6 +44,9 @@ public class CellContainer : MonoBehaviour
                     cells[stepCount, row].PlaySound();
                     //Play Animations
                     Instantiate(tileAnimation, new Vector3(stepCount + map.tileAnchor.x, row + map.tileAnchor.y), Quaternion.identity);
+                    //GameObject myRoadInstance = Instantiate(Resources.Load("Prefab/GameObject")) as GameObject;
+                    //Destroy(myRoadInstance.GetComponent< UnityEngine.Experimental.Rendering.>(), 2);
+                    //Destroy(myRoadInstance, 3);
                 }
             }
             stepCount++;

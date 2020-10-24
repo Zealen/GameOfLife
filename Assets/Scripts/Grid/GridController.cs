@@ -13,6 +13,9 @@ public class GridController : MonoBehaviour
     private Vector3Int previousCellPosition;
     private TileBase clickedTile;
 
+    private Vector3 mousePos;
+    private Vector3 mouseWorldPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,9 +26,9 @@ public class GridController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 mousePos = Input.mousePosition;
+        mousePos = Input.mousePosition;
         mousePos.z = -Camera.main.transform.position.z;
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
+        mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
         cellPosition = map.WorldToCell(mouseWorldPos);
 
         if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
